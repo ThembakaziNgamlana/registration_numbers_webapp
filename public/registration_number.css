@@ -1,0 +1,49 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    height: 100vh;
+    margin: 0;
+    background-color: blueviolet; /* Background color */
+}
+
+/* Style your container */
+.container {
+    text-align: center;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: white;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+}
+
+h1{
+    text-align: center;
+    margin-top: 20px
+}
+
+form {
+    text-align: center;
+    margin-top: 20px; /* Add margin between the form and other elements */
+}
+button {
+    background-color: blue; /* Change button background color */
+    color: white; /* Change button text color */
+    border: none;
+    padding: 10px 50px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 30px;
+}
+.the_reg_Num{
+    text-align: center;
+    background-color: silver;
+}
+
+.registration-number {
+    background-color: yellow; /* or silver-grey */
+    border: 2px solid black;
+    border-radius: 5px;
+    margin: 5px;
+    padding: 10px;
+}
