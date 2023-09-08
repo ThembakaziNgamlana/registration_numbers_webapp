@@ -1,42 +1,38 @@
 export default function regNumApp() {
-  const registrationNumbers = [];
-  const validFormats = [/^[A-Z]{2}\s\d{3}\s\d{3}$/, /^\d{3}-\d{3}$/]; // Define valid registration number formats
+ // regNumApp.js
 
-  function addRegistrationNumber(number, town) {
-    // Validate the registration number format
-    const validFormat = validFormats.some(format => format.test(number));
-    if (!validFormat) {
-      return { success: false, message: 'Invalid registration number format.' };
-    }
+const registrationNumbers = [];
+let selectedTown = "";
 
-    // Check for duplicates
-    const isDuplicate = registrationNumbers.some(item => item.number === number);
-    if (isDuplicate) {
-      return { success: false, message: 'Duplicate registration number.' };
-    }
-
-    registrationNumbers.push({ number, town });
-    return { success: true, message: 'Registration number added successfully.' };
-  }
-
-  function filterRegistrationNumbers(selectedTown) {
-    return registrationNumbers.filter(item => item.town === selectedTown);
-  }
-
-  function getAllRegistrationNumbers() {
-    return registrationNumbers;
-  }
-
-  function resetRegistrationNumbers() {
-    registrationNumbers.length = 0;
-  }
-
-  return {
-    addRegistrationNumber,
-    filterRegistrationNumbers,
-    getAllRegistrationNumbers,
-    resetRegistrationNumbers,
-  };
+function reset() {
+  registrationNumbers.length = 0;
+  selectedTown = "";
 }
 
+function addRegistration(registration) {
+  if (isValidRegistration(registration)) {
+    registrationNumbers.push(registration);
+  }
+}
+
+function isValidRegistration(registration) {
+  const pattern = /^[A-Z]{2}\s\d{3}\s\d{3}$/;
+  return pattern.test(registration);
+}
+
+function getRegistrationsForTown() {
+  return registrationNumbers.filter((reg) => reg.startsWith(selectedTown));
+}
+
+return {
+  reset,
+  addRegistration,
+  getRegistrationsForTown,
+  setSelectedTown: (town) => {
+    selectedTown = town;
+  },
+};
+ 
+
+}
 

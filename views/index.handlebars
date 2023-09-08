@@ -1,49 +1,4 @@
-{{!-- 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/registration_number.css">
-    <title>Document</title>
-</head>
-<body>
-    <div>
-     <h1>Registration numbers for selected town</h1>
-    </div>
-
-    <form action="/reg_numbers" method="post">
-        <div>
-            <label for="registrationNumber">Registration Number</label>
-            <input name="name" type="number" id="registrationNumber">
-        </div>
-
-        <div>
-            <button class="addBtn" type="submit">Add</button>
-        </div>
-
-        <div class="selectTown">
-            <label for="townSelect">Select a Town:</label>
-            <select name="regTown" id="townSelect">
-                <option value="Krugersdorp">Krugersdorp</option>
-                <option value="Midrand">Midrand</option>
-                <option value="Centurion">Centurion</option>
-                <option value="Springs">Springs</option>
-            </select>
-        </div>
-    </form>
-
-    <form>
-        <button class="showBtn" type="submit">Show</button>
-    </form>
-
-    <form>
-        <button class="refreshBtn" type="submit">Reset</button>
-    </form>
-</body>
-</html> --}}
-
-<!DOCTYPE html>
+{{!-- <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -68,7 +23,7 @@
             <button class="addBtn" type="submit">Add</button>
         </div>
 
-        <div class="selectTown">
+         <div class="selectTown">
             <label for="townSelect">Select a Town:</label>
             <select name="regTown" id="townSelect">
                 <option value="Krugersdorp">Krugersdorp</option>
@@ -78,16 +33,64 @@
             </select>
         </div>
 
-        <!-- "Show" and "Reset" buttons are now below the selectTown div -->
+        
         <button class="showBtn" type="submit">Show</button>
         <button class="refreshBtn" type="submit">Reset</button>
     </form>
 
-    <!-- List of towns can be displayed below the form -->
+
     <div class="townList">
       
     </div>
     </div>
-    
+     
+</body>
+</html>
+ --}}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/registration_number.css">
+    <title>Registration Number Web Application</title>
+</head>
+<body>
+    <div class="the_reg_Num">
+        <div>
+            <h1>Registration Number Web Application</h1>
+        </div>
+
+        <form action="/add" method="post">
+            <div>
+                <label for="registrationNumber">Enter Registration Number</label>
+                <input name="registrationNumber" type="text" id="registrationNumber" placeholder="e.g., CY 123 456">
+            </div>
+            <div>
+                <button class="addBtn" type="submit">Add</button>
+            </div>
+        </form>
+
+        <form action="/setTown" method="post" class="selectTown">
+            <label for="townSelect">Select a Town:</label>
+            <select name="regTown" id="townSelect">
+                <option value="Parrl">Paarl</option>
+                <option value="George">George</option>
+                <option value="CapeTown">CapeTown</option>
+            </select>
+            <button class="showBtn" type="submit">Show</button>
+        </form>
+
+        <form action="/reset" method="post">
+            <button class="refreshBtn" type="submit">Reset</button>
+        </form>
+
+        <div class="townList">
+            <h2>{{ townList }}</h2>
+            {{#each townList}}
+            <p>{{ this }}</p>
+            {{/each}}
+        </div>
+    </div>
 </body>
 </html>
