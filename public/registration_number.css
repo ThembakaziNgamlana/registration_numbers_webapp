@@ -5,10 +5,10 @@ body {
     
     height: 100vh;
     margin: 0;
-    background-color: blueviolet; /* Background color */
+    background-color: blueviolet; 
 }
 
-/* Style your container */
+
 .container {
     text-align: center;
     padding: 20px;
@@ -24,11 +24,11 @@ h1{
 
 form {
     text-align: center;
-    margin-top: 20px; /* Add margin between the form and other elements */
+    margin-top: 20px; 
 }
 button {
-    background-color: blue; /* Change button background color */
-    color: white; /* Change button text color */
+    background-color: blue;
+    color: white;
     border: none;
     padding: 10px 50px;
     border-radius: 5px;
@@ -39,11 +39,22 @@ button {
     text-align: center;
     background-color: silver;
 }
-
-.registration-number {
-    background-color: yellow; /* or silver-grey */
+.key_words{
+    border-radius:  15px;
+    height: 90px;
+    background-color: yellow; 
     border: 2px solid black;
-    border-radius: 5px;
-    margin: 5px;
-    padding: 10px;
+    width: 150px;
+    padding: 20px;
+    margin-bottom: 450px;
+}
+
+.townList {
+    background-color: yellow;  */
+    
+    or silver-grey
+    /* border: 2px solid black; */
+    /* border-radius: 5px; */
+    /* margin: 5px; */
+    /* padding: 10px;
 }
