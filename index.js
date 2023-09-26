@@ -4,6 +4,8 @@ import bodyParser from 'body-parser';
 import pgPromise from 'pg-promise';
 import  regNumApp from './reg_numbers.js';
 import registationDB from './reg_numbersdb.js';
+import flash from 'express-flash';
+import session from 'express-session';
 
 const pgp = pgPromise();
 
@@ -15,6 +17,9 @@ const registrationDB = registationDB(db);
 
 
 const app = express();
+
+app.use(session({ secret: 'your-secret-key', resave: false, saveUninitialized: true }));
+app.use(flash());
 
 
 const handlebars = exphbs.create({
@@ -43,49 +48,59 @@ const registrationNumbers = [];
 
 
 app.get('/',async (req, res) => {
-
-  let displayTowns = await registrationDB.getAllTowns()
+  const errorMsg = req.flash('errors')[0]
+  const registration = req.body.registrationNumber;
+ const townNames = registrationAppInstance.townID(registration)
+ const errorMessage = registrationAppInstance.errorMsg(registration , townNames)
+ 
+ let displayTowns = await registrationDB.getAllTowns()
  console.log(displayTowns)
+
   res.render('index',
- {displayTowns})
+ {displayTowns , errorMessage}  ) 
+
+
    //{ message: registrationAppInstance.getRegistrationsNumbers() });
 });
 
 
 // Add registration route
-app.post('/reg_numbers', async(req, res) => {
- let  registration = req.body.registrationNumber;
-  //registration = registrationAppInstance.getRegistrationNumbers(registration);
- const validationMessage = registrationAppInstance.getValidationMessage()
+// app.post('/reg_numbers', async(req, res) => {
+//  let  registration = req.body.registrationNumber;
+//   //registration = registrationAppInstance.getRegistrationNumbers(registration);
+//  const validationMessage = registrationAppInstance.getValidationMessage()
  
 
+//   res.render('index', {
+//     validationMessage,
+//   // registration,
+//     //townList: registrationAppInstance.getRegistrationsForTown(),
+//   });
+// });
+app.post('/reg_numbers', async (req, res) => {
+  let registration = req.body.registrationNumber;
+
+  const errorMessage = registrationAppInstance.errorMsg();
+
+  req.flash('error', errorMessage); // Use req.flash to store the error message
+
   res.render('index', {
-    validationMessage,
-  // registration,
-    //townList: registrationAppInstance.getRegistrationsForTown(),
+    // registration,
   });
 });
+
  app.post('/add', async(req, res) => {
   const registration = req.body.registrationNumber;
  const townNames = registrationAppInstance.townID(registration)
  const townIDs = await registrationDB.getTownId(townNames)
-//const townNames = req.body.town;
+if(townIDs && townNames){
   const townid = townIDs.id
   console.log(townIDs)
-
- //console.log(townIDs)
- // console.log(townidsql)
   const insertTowns = await registrationDB.insertRegistrationNumber(registration, townid)
+}else {
+  registrationAppInstance.errorMsg(registration , townNames)
+}
 
-
-//console.log(insertTowns)
-  // if (registration === ''){
-  //    req.flash('errorMessage','this is a empty string')
-
-  // }else{
-  //    insertTowns
-  // }
-  //   insertTowns
      res.redirect('/');
 
    

@@ -1,77 +1,83 @@
 export default function regNumApp() {
         const registrationNumbers =[];
         let selectedTown = "";
-        let reg = [];
-        let townName= '';
+       // let reg = [];
+       let errorMessage = '';
+       let townName= '';
        
-
-
         function reset() {
           //registrationNumbers =[];
+          registrationNumbers.length = 0;
           selectedTown = "";
-          reg ={};
+         // reg ={};
           townName = '';
        }
 
         function addRegistration(registration) {
-          if (isValidRegistration(registration)) {
+          if (errorMessage(registration)) {
             reg = registrationNumbers.push(registration);
         }
         
         }
         function getRegistrationsNumbers(){
-        return reg
+        return registrationNumbers;
         }
 
-       function townID(registration){
-       
-         if(registration.startsWith('CA')){
-            townName = 'CapeTown';
-         }
-         else if(registration.startsWith('CJ')){
-            townName = 'Paarl';
-         }
-         else if(registration.startsWith('CW')){
-            townName = 'George';
-         }
-            return townName
-       }
-
-  
-
-        function getValidationMessage(){
-          if(registrationNumbers){
-            return `Registration number added successfully.`;
-          }
-         else{
-          return "Invalid registration number format. Please enter a valid registration number.";
-        }
-
+      //  function townID(registration){
+      //   let townName = '';
+      //   if(registration){
+      //     townName = 'Registration not entered';
+      //   }
+      //    else if(registration.startsWith('CA')){
+      //       townName = 'CapeTown';
+      //    }
+      //    else if(registration.startsWith('CJ')){
+      //       townName = 'Paarl';
+      //    }
+      //    else if(registration.startsWith('CW')){
+      //       townName = 'George';
+      //    }
         
+      //      return townName
+      //  }
+     
+      function townID(registration) {
+        if (typeof registration === 'string') { // Check if registration is a string
+          if (registration.startsWith('CA')) {
+            townName = 'CapeTown';
+          } else if (registration.startsWith('CJ')) {
+            townName = 'Paarl';
+          } else if (registration.startsWith('CW')) {
+            townName = 'George';
+          }
+        } else {
+          // Handle the case where registration is not a string
+          townName = ''; // or set it to an appropriate default value
         }
-        function getRegistrationsForTownAndPrefix(prefix) {
-          return registrationNumbers.filter((reg) => reg.startsWith(selectedTown) && reg.startsWith(prefix));
+        return townName;
+      }
+      
+
+       function errorMsg(registration , townName) {
+        if (!registration === null ) {
+          return 'Please enter your registration number' ;
+        } else if (townName === null) {
+          return'Town not selected' ;
         }
-        function isValidRegistration(registration) {
-          const pattern = /^[A-Z]{2}\s\d{3}\s\d{3}$/;
-          return pattern.test(registration);
-        }
+      }
+     
+        
         function getRegistrationsForTown() {
           return registrationNumbers.filter((reg) => reg.startsWith(selectedTown));
         }
         return {
           reset,
           addRegistration,
-          isValidRegistration,
           townID,
-        // getRegistrations,
-        getRegistrationsNumbers,
-        getValidationMessage,
-         getRegistrationsForTownAndPrefix,
+          getRegistrationsNumbers,
+          errorMsg,
           getRegistrationsForTown,
-          setSelectedTown: (town) => {
-            selectedTown = town;
-          },
+        
         };
         }
  
