@@ -13,8 +13,28 @@ export default function regNumApp() {
           townName = '';
        }
 
+       function registationsFormat(registrationNumber) {
+        // Define a regular expression pattern for the desired format
+        const regFormat = /^[A-Z]{2}\s\d{3}\s\d{3}$/;
+      
+        // Test if the registrationNumber matches the pattern
+        if (regFormat.test(registrationNumber)) {
+          // If it matches, transform the registrationNumber
+          let transformed = registrationNumber.replace(/\s/g, ''); // Remove spaces
+          transformed = transformed.toUpperCase(); // Convert to uppercase
+          return transformed;
+        } else {
+          // If it doesn't match, return the original registrationNumber
+          return registrationNumber;
+        }
+      }
+      
+
+
+
+
         function addRegistration(registration) {
-          if (errorMessage(registration)) {
+          if (errorMsg(registration)) {
             reg = registrationNumbers.push(registration);
         }
         
@@ -59,7 +79,7 @@ export default function regNumApp() {
       
 
        function errorMsg(registration , townName) {
-        if (!registration === null ) {
+        if (registration === null ) {
           return 'Please enter your registration number' ;
         } else if (townName === null) {
           return'Town not selected' ;
@@ -77,7 +97,7 @@ export default function regNumApp() {
           getRegistrationsNumbers,
           errorMsg,
           getRegistrationsForTown,
-        
+          registationsFormat
         };
         }
  

@@ -13,6 +13,9 @@
         </div>
 
         <form action="/add" method="post">
+        <div>
+             <p  class="errors">{{messages.error}}</p>
+           </div>
             <div>
                 <label for="registrationNumber">Enter Registration Number</label>
                 <input name="registrationNumber" value="{{registration}}" type="text" id="registrationNumber" placeholder="e.g., CY 123 456">
@@ -25,9 +28,7 @@
                 </form>
              
             </div>
-           <div>
-             <p  class="errors">{{errorMessage}}</p>
-           </div>
+           
         </form>
 
         <form action="/setTown" method="post" class="selectTown">

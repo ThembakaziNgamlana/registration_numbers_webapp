@@ -7,13 +7,10 @@ async function insertRegistrationNumber (registrationNumber, townid) {
 
 }
 
+
 async function getAllTowns() {
   return await db.manyOrNone('SELECT registration_number FROM registration_numbers;');
 }
-
-
-
-
 
 async function getTownId(townName){
   return await db.oneOrNone('SELECT id FROM towns WHERE town_name =$1', [townName])
@@ -21,6 +18,12 @@ async function getTownId(townName){
 
 async function getRegByTown(townName){
 return await db.manyOrNone('SELECT registration_number FROM registration_numbers JOIN towns ON registration_numbers.town_id = towns.id WHERE towns.town_name = $1', [townName])
+}
+
+
+async function doesRegNumExist(townName) {
+  const result = await db.oneOrNone('SELECT registration_number FROM registration_numbers WHERE registration_number =$1', [townName]);
+  return result;
 }
 
 async function refreshDatabase() {
@@ -35,7 +38,7 @@ return{
   refreshDatabase,
   getTownId,
  getRegByTown,
-
+ doesRegNumExist
 }
 
 
