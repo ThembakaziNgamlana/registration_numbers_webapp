@@ -68,54 +68,64 @@ app.get('/', async (req, res) => {
 app.post('/reg_numbers', async (req, res) => {
   // Retrieve registration number from the request
   let registration = req.body.registrationNumber;
-  
-  // Flash an error message
- // req.flash('error', 'Enter a correct registration format');
+
 
   // Render the 'index' view
   res.render('index');
 });
 
+
 // Route to handle adding a registration number to the database
 app.post('/add', async (req, res) => {
   // Retrieve and clean the registration number from the request
-  const registration = (req.body.registrationNumber).toUpperCase().trim();
-  
-  // Check if the registration number already exists in the database
-  const registrationExists = await registrationDB.doesRegNumExist(registration);
+  const registration = (req.body.registrationNumber || '').toUpperCase().trim();
 
-  if (registrationExists) {
-    req.flash('error', 'This registration number already exists');
-  } else if (!registrationAppInstance.registationsFormat(registration)) {
-    req.flash('error', 'Please enter a valid registration number');
+  // Define the maximum allowed length for registrations
+  const maxRegistrationLength = 10; // Adjust as needed
+
+  // Regular expression to check for spaces in the registration number
+  const spaceRegex = /\s+/;
+
+  // Check if the registration number contains spaces
+  if (!spaceRegex.test(registration)) {
+      req.flash('error', 'Registration number must contain spaces, e.g., CA 123 456.');
+  } else if (registration.length > maxRegistrationLength) {
+      req.flash('error', 'Registration number is too long. Maximum length is ' + maxRegistrationLength + ' characters.');
   } else {
-    // Add the registration number to the database
-    await regNum.addRegistration(registration);
+      // Continue with other validations and database operations
 
-    // Get town names based on the registration number
-    const townNames = registrationAppInstance.townID(registration);
-    
-    // Get the town IDs from the database
-    const townIDs = await registrationDB.getTownId(townNames);
-    
-    if (townIDs && townNames) {
-      // Extract the town ID
-      const townid = townIDs.id;
-      
-      // Insert the registration number into the database
-      await registrationDB.insertRegistrationNumber(registration, townid);
+      // Check if the registration number already exists in the database
+      const registrationExists = await registrationDB.doesRegNumExist(registration);
 
-      req.flash('success', `The registration number ${registration} has been added successfully`);
-    } else {
-      registrationAppInstance.errorMsg(registration, townNames);
-    }
+      if (registrationExists) {
+          req.flash('error', 'This registration number already exists');
+      } else if (!registration) {
+          req.flash('error', 'Please enter a valid registration number');
+      } else {
+          // Get town names based on the registration number
+          const townNames = registrationAppInstance.townID(registration);
+
+          // Get the town IDs from the database based on townNames
+          const townIDs = await registrationDB.getTownId(townNames);
+
+          if (townIDs && townNames) {
+              // Extract the town ID
+              const townid = townIDs.id;
+
+              // Insert the registration number into the database
+              const insertTowns = await registrationDB.insertRegistrationNumber(registration, townid);
+
+              // Set a success message
+              req.flash('success', 'The registration number ' + registration + ' has been added successfully.');
+          } else {
+              registrationAppInstance.errorMsg(registration, townNames);
+          }
+      }
   }
 
   // Redirect back to the root URL
   res.redirect('/');
 });
-
-
 
 
 // Route to handle displaying the 'add' page
@@ -137,9 +147,13 @@ app.post('/setTown', async (req, res) => {
   
   // Get registration numbers by the selected town
   const displayTowns = await registrationDB.getRegByTown(town);
+
+
+   // Check if there are no registrations
+   const noRegistrations = displayTowns.length === 0;
   
   // Render the 'index' view with the filtered registration numbers
-  res.render('index', { displayTowns });
+  res.render('index', { displayTowns, noRegistrations});
 });
 
 // Route to reset the database and application state

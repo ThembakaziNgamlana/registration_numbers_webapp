@@ -43,23 +43,7 @@ export default function regNumApp() {
         return registrationNumbers;
         }
 
-      //  function townID(registration){
-      //   let townName = '';
-      //   if(registration){
-      //     townName = 'Registration not entered';
-      //   }
-      //    else if(registration.startsWith('CA')){
-      //       townName = 'CapeTown';
-      //    }
-      //    else if(registration.startsWith('CJ')){
-      //       townName = 'Paarl';
-      //    }
-      //    else if(registration.startsWith('CW')){
-      //       townName = 'George';
-      //    }
-        
-      //      return townName
-      //  }
+     
      
       function townID(registration) {
         if (typeof registration === 'string') { // Check if registration is a string

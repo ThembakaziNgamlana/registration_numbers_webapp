@@ -82,3 +82,7 @@ button {
 .alert_success{
   color: green;
 }
+
+.no-registrations{
+    color: red; 
+}
