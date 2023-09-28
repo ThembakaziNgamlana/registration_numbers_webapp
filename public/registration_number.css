@@ -62,3 +62,7 @@ button {
 .errors{
     color: red;
 }
+
+.alert_success{
+  color: green;
+}

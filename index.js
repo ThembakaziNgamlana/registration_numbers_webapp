@@ -76,39 +76,6 @@ app.post('/reg_numbers', async (req, res) => {
   res.render('index');
 });
 
-//Route to handle adding a registration number to the database
-// app.post('/add', async (req, res) => {
-//   // Retrieve and clean the registration number from the request
-//   const registration = (req.body.registrationNumber).toUpperCase().trim();
-  
-//   // error message to enter the registartion number
-//   if (await registrationDB.getAllTowns()) {
-//     req.flash('error', 'please enter your registration number');
-//   } else if (registrationAppInstance.errorMsg(registrationNumbers)) {
-//     // Add the registration number to the database
-//     await regNum.addRegistration(registrationNumbers);
-//   }
-  
-//   // Get town names based on the registration number
-//   const townNames = registrationAppInstance.townID(registration);
-  
-//   // Get the town IDs from the database
-//   const townIDs = await registrationDB.getTownId(townNames);
-  
-//   if (townIDs && townNames) {
-//     // Extract the town ID
-//     const townid = townIDs.id;
-    
-//     // Insert the registration number into the database
-//     const insertTowns = await registrationDB.insertRegistrationNumber(registration, townid);
-//   } else {
-//     registrationAppInstance.errorMsg(registration, townNames);
-//   }
-
-
-//   // Redirect back to the root URL
-//   res.redirect('/');
-// });
 // Route to handle adding a registration number to the database
 app.post('/add', async (req, res) => {
   // Retrieve and clean the registration number from the request
@@ -137,6 +104,8 @@ app.post('/add', async (req, res) => {
       
       // Insert the registration number into the database
       await registrationDB.insertRegistrationNumber(registration, townid);
+
+      req.flash('success', `The registration number ${registration} has been added successfully`);
     } else {
       registrationAppInstance.errorMsg(registration, townNames);
     }
