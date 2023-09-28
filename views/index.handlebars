@@ -16,15 +16,19 @@
         <div>
              <p  class="errors">{{messages.error}}</p>
            </div>
+           <div class="success">
+                {{#if messages.success}}
+               <div class="alert_success">{{messages.success}}</div>
+                {{/if}} 
+           </div>
+            
             <div>
                 <label for="registrationNumber">Enter Registration Number</label>
                 <input name="registrationNumber" value="{{registration}}" type="text" id="registrationNumber" placeholder="e.g., CY 123 456">
             </div>
             
             <div>
-                 {{#if messages.success}}
-               <div class="alert_success">{{messages.success}}</div>
-                {{/if}} 
+               
                 <form action="/add" method="get">
                  <button class="addBtn" type="submit">Add</button>
                 
@@ -48,7 +52,11 @@
             <button class="refreshBtn" type="submit">Reset</button>
         </form>
         
-        <div class="displayTowns">
+      {{!-- <p class="no-registrations">No registrations found for this town.</p> --}}
+
+
+
+        <div>
            
                 {{#each displayTowns}} 
                 <ul>

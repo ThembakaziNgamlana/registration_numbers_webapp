@@ -5,8 +5,9 @@ body {
     
     height: 100vh;
     margin: 0;
-    background-color: blueviolet; 
+    background-color: yellow; 
 }
+
 
 
 .container {
@@ -38,6 +39,7 @@ button {
 .the_reg_Num{
     text-align: center;
     background-color: silver;
+    padding-bottom: 150px;
 }
 .key_words{
     border-radius:  15px;
@@ -48,6 +50,20 @@ button {
     padding: 20px;
     margin-bottom: 450px;
 }
+/* .registrationNumber{
+    border: 2px solid black;
+    padding: 5px;
+    color: silver;
+    
+} */
+.success{
+    padding-bottom: 15px;
+    font-size: medium;
+}
+
+
+
+
 
 .displayTowns{
     background-color: yellow; 
