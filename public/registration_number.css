@@ -11,15 +11,18 @@ body {
     background-repeat: no-repeat;
     background-attachment: fixed;
 }
+
 .registrationNumber {
     border-radius: 5px;
     height: 30px;
-    padding-left: 10px;
-    background-color: silver; 
-    border: 2px solid black;
-    width: 400px;
-
+    padding: 0 10px; /* Add padding to create space around the content */
+    background-color: silver;
+    border: 1px solid black; /* Adjust the border size */
+    float: left; /* Make elements float next to each other */
+    margin-right: 5px; /* Add margin to separate numbers */
 }
+
+
 
 
 .container {

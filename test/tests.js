@@ -19,12 +19,7 @@ describe('RegistrationDB Functions', function () {
     await db.none('DELETE FROM registration_numbers;');
   });
 
-  describe('insertRegistrationNumber', () => {
-    it('should insert a registration number into the database', async () => {
-      const result = await registrationDBInstance.insertRegistrationNumber('ABC 123', 1);
-      assert.strictEqual(result, null); // Assuming db.none() returns null on success
-    });
-  });
+ 
 
   describe('getAllTowns', () => {
     it('should retrieve all registration numbers from the database', async () => {
@@ -54,8 +49,27 @@ describe('RegistrationDB Functions', function () {
       assert(Array.isArray(registrationNumbers));
       assert.strictEqual(registrationNumbers.length, 0); // Assuming no matching town
     });
+
+    it('should return an empty array for an invalid town name', async () => {
+      const registrationNumbers = await registrationDBInstance.getRegByTown('NonExistentTown'); // Replace with an invalid town name
+      assert(Array.isArray(registrationNumbers));
+      assert.strictEqual(registrationNumbers.length, 0);
+    });
   });
 
+  describe('refreshDatabase', () => {
+    it('should delete all registration numbers from the database', async () => {
+      // Insert test data first
+      await registrationDBInstance.insertRegistrationNumber('ABC 123', 1);
+      await registrationDBInstance.insertRegistrationNumber('DEF 456', 2);
+
+      await registrationDBInstance.refreshDatabase();
+
+      const registrationNumbers = await registrationDBInstance.getAllTowns();
+      assert(Array.isArray(registrationNumbers));
+      assert.strictEqual(registrationNumbers.length, 0); // All records should be deleted
+    });
+  });
   
   after(function () {
     db.$pool.end();
