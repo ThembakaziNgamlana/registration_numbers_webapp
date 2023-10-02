@@ -1,0 +1,1 @@
+[![Node.js Package](https://github.com/ThembakaziNgamlana/registration_numbers_webapp/actions/workflows/npm-publish.yml/badge.svg)](https://github.com/ThembakaziNgamlana/registration_numbers_webapp/actions/workflows/npm-publish.yml)
