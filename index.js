@@ -122,9 +122,9 @@ app.post('/add', async (req, res) => {
           }
       }
   }
-  setTimeout(() => {
+
    res.redirect('/');
-  }, 3000);
+  
 });
 
 

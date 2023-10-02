@@ -20,14 +20,28 @@
         <div>
             <h1>Registration Number Web Application</h1>
         </div>
+      
 
         <form action="/add" method="post">
         <div>
              <p  class="errors">{{messages.error}}</p>
+              <script>
+                  setTimeout(function () {
+                        document.querySelector(".errors").remove();
+                  }, 3000)
+            </script>
+
            </div>
            <div class="success">
                 {{#if messages.success}}
-               <div class="alert_success">{{messages.success}}</div>
+               <div class="alert_success">{{messages.success}}
+                <script>
+                  setTimeout(function () {
+                        document.querySelector(".success").remove();
+                  }, 3000)
+            </script>
+
+               </div>
                 {{/if}} 
            </div>
             
@@ -38,7 +52,7 @@
             
             <div>
                
-                <form action="/add" class="registrationNumber" method="get">
+                <form action="/add"  method="get">
                  <button class="addBtn" type="submit">Add</button>
                 
                 </form>
@@ -73,7 +87,7 @@
            
                 {{#each displayTowns}} 
                 <ul>
-                    <li>{{this.registration_number}}</li> 
+                    <p class="registrationNumber">{{this.registration_number}}<p>
                 </ul>
                 
                 {{/each}}

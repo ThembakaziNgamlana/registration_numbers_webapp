@@ -6,11 +6,19 @@ body {
     height: 100vh;
     margin: 0;
     background-color: lightskyblue; 
+    background-image: url('./images/reg.num.webp');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
 }
 .registrationNumber {
-    border: 2px solid yellow;
-    padding: 5px;
-    color: black; /* You can change the text color as needed */
+    border-radius: 5px;
+    height: 30px;
+    padding-left: 10px;
+    background-color: silver; 
+    border: 2px solid black;
+    width: 400px;
+
 }
 
 
@@ -18,7 +26,7 @@ body {
     text-align: center;
     padding: 20px;
     border-radius: 10px;
-    background-color: white;
+    background-color: lightcoral;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
 }
 
@@ -42,8 +50,10 @@ button {
 }
 .the_reg_Num{
     text-align: center;
-    background-color: silver;
+    background-color:lightgreen;
     padding-bottom: 150px;
+    margin-right: 190px;
+    
 }
 .key_words{
     border-radius:  15px;
@@ -63,7 +73,7 @@ button {
 } */
 .success{
     padding-bottom: 15px;
-    font-size: medium;
+    font-size: larger;
 }
 
 
@@ -83,12 +93,15 @@ button {
 
 .errors{
     color: red;
+    font-size: larger;
 }
 
 .alert_success{
   color: green;
+  font-size: larger;
 }
 
 .no-registrations{
     color: red; 
+    font-size: larger;
 }
