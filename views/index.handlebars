@@ -33,12 +33,12 @@
             
             <div>
                 <label for="registrationNumber">Enter Registration Number</label>
-                <input name="registrationNumber" value="{{registration}}" type="text" id="registrationNumber" placeholder="e.g., CY 123 456">
+                <input name="registrationNumber" value="{{registration}}" type="text" id="registrationNumber" placeholder="e.g., CY 123 456" >
             </div>
             
             <div>
                
-                <form action="/add" method="get">
+                <form action="/add" class="registrationNumber" method="get">
                  <button class="addBtn" type="submit">Add</button>
                 
                 </form>
@@ -46,6 +46,8 @@
             </div>
            
         </form>
+
+
 
         <form action="/setTown" method="post" class="selectTown">
             <label for="townSelect">Select a Town:</label>

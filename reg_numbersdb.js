@@ -3,7 +3,7 @@ export default function registationDB(db) {
 async function insertRegistrationNumber (registrationNumber, townid) {
   //const regPrefix = await db.any('SELECT reg_prefix FROM towns WHERE id= $1'
  // const  town = await db.oneOrNone('SELECT town_name=$1  FROM towns WHERE id = $2', [townName, townid])
- await db.none('INSERT INTO registration_numbers (registration_number, town_id) VALUES ($1, $2)', [registrationNumber, townid])
+return  await db.none('INSERT INTO registration_numbers (registration_number, town_id) VALUES ($1, $2)', [registrationNumber, townid])
 
 }
 

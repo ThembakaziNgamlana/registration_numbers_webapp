@@ -7,7 +7,11 @@ body {
     margin: 0;
     background-color: lightskyblue; 
 }
-
+.registrationNumber {
+    border: 2px solid yellow;
+    padding: 5px;
+    color: black; /* You can change the text color as needed */
+}
 
 
 .container {
@@ -75,6 +79,7 @@ button {
     text-align: center;
     margin-left: 100px;
 }
+
 
 .errors{
     color: red;

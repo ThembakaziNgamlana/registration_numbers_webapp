@@ -122,9 +122,9 @@ app.post('/add', async (req, res) => {
           }
       }
   }
-
-  // Redirect back to the root URL
-  res.redirect('/');
+  setTimeout(() => {
+   res.redirect('/');
+  }, 3000);
 });
 
 
