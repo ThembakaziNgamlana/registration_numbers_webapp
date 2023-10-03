@@ -15,11 +15,12 @@ body {
 .registrationNumber {
     border-radius: 5px;
     height: 30px;
-    padding: 0 10px; /* Add padding to create space around the content */
+    width: 200px;
+    padding: 0 10px; 
     background-color: silver;
-    border: 1px solid black; /* Adjust the border size */
-    float: left; /* Make elements float next to each other */
-    margin-right: 5px; /* Add margin to separate numbers */
+    border: 1px solid black; 
+    float: left; 
+    margin-right: 5px;
 }
 
 
