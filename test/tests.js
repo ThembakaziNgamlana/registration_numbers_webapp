@@ -18,9 +18,7 @@ describe('RegistrationDB Functions', function () {
     // Clean the 'registration_numbers' table before each test run
     await db.none('DELETE FROM registration_numbers;');
   });
-
- 
-
+  
   describe('getAllTowns', () => {
     it('should retrieve all registration numbers from the database', async () => {
       // Insert test data first
@@ -38,6 +36,10 @@ describe('RegistrationDB Functions', function () {
       await registrationDBInstance.insertRegistrationNumber('DEF 456', 2);
       const townId = await registrationDBInstance.getTownId('TownName'); // Replace with a valid town name
       assert.strictEqual(townId, null); // Assuming town doesn't exist
+    });
+    it('should return null for an invalid town name', async () => {
+      const townId = await registrationDBInstance.getTownId('NonExistentTown'); // Replace with an invalid town name
+      assert.strictEqual(townId, null);
     });
   });
 
@@ -70,7 +72,13 @@ describe('RegistrationDB Functions', function () {
       assert.strictEqual(registrationNumbers.length, 0); // All records should be deleted
     });
   });
+  describe('doesRegNumExist', () => {
   
+    it('should return null for a non-existent registration number', async () => {
+      const registrationNumber = await registrationDBInstance.doesRegNumExist('NonExistentRegistrationNumber'); // Replace with a non-existent registration number
+      assert.strictEqual(registrationNumber, null);
+    });
+  });
   after(function () {
     db.$pool.end();
   });

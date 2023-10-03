@@ -7,6 +7,18 @@ return  await db.none('INSERT INTO registration_numbers (registration_number, to
 
 }
 
+async function getAllRegistrationNumbers() {
+  try {
+    // Your implementation to retrieve all registration numbers
+    const registrationNumbers = await db.manyOrNone('SELECT registration_number FROM registration_numbers');
+    return registrationNumbers;
+  } catch (error) {
+    // Handle any errors that occur during database query
+    console.error('Error retrieving all registration numbers:', error);
+    throw error;
+  }
+}
+
 
 async function getAllTowns() {
   return await db.manyOrNone('SELECT registration_number FROM registration_numbers;');
@@ -38,7 +50,8 @@ return{
   refreshDatabase,
   getTownId,
  getRegByTown,
- doesRegNumExist
+ doesRegNumExist,
+ getAllRegistrationNumbers
 }
 
 

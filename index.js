@@ -86,47 +86,50 @@ app.post('/add', async (req, res) => {
   // Regular expression to check for spaces in the registration number
   const spaceRegex = /\s+/;
 
+  // Regular expression to check if the registration starts with CA, CW, or CJ
+  const validPrefixRegex = /^(CA|CW|CJ)\s+/;
+
   // Check if the registration number contains spaces
   if (!spaceRegex.test(registration)) {
-      req.flash('error', 'Registration number must contain spaces, e.g., CA 123 456.');
+    req.flash('error', 'Registration number must contain spaces, e.g., CA 123 456.');
   } else if (registration.length > maxRegistrationLength) {
-      req.flash('error', 'Registration number is too long. Maximum length is ' + maxRegistrationLength + ' characters.');
+    req.flash('error', 'Registration number is too long. Maximum length is ' + maxRegistrationLength + ' characters.');
+  } else if (!validPrefixRegex.test(registration)) {
+    req.flash('error', 'Please enter a registration number that starts with CA, CW, or CJ.');
   } else {
-      // Continue with other validations and database operations
+    // Continue with other validations and database operations
 
-      // Check if the registration number already exists in the database
-      const registrationExists = await registrationDB.doesRegNumExist(registration);
+    // Check if the registration number already exists in the database
+    const registrationExists = await registrationDB.doesRegNumExist(registration);
 
-      if (registrationExists) {
-          req.flash('error', 'This registration number already exists');
-      } else if (!registration) {
-          req.flash('error', 'Please enter a valid registration number');
+    if (registrationExists) {
+      req.flash('error', 'This registration number already exists');
+    } else if (!registration) {
+      req.flash('error', 'Please enter a valid registration number');
+    } else {
+      // Get town names based on the registration number
+      const townNames = registrationAppInstance.townID(registration);
+
+      // Get the town IDs from the database based on townNames
+      const townIDs = await registrationDB.getTownId(townNames);
+
+      if (townIDs && townNames) {
+        // Extract the town ID
+        const townid = townIDs.id;
+
+        // Insert the registration number into the database
+        const insertTowns = await registrationDB.insertRegistrationNumber(registration, townid);
+
+        // Set a success message
+        req.flash('success', 'The registration number ' + registration + ' has been added successfully.');
       } else {
-          // Get town names based on the registration number
-          const townNames = registrationAppInstance.townID(registration);
-
-          // Get the town IDs from the database based on townNames
-          const townIDs = await registrationDB.getTownId(townNames);
-
-          if (townIDs && townNames) {
-              // Extract the town ID
-              const townid = townIDs.id;
-
-              // Insert the registration number into the database
-              const insertTowns = await registrationDB.insertRegistrationNumber(registration, townid);
-
-              // Set a success message
-              req.flash('success', 'The registration number ' + registration + ' has been added successfully.');
-          } else {
-              registrationAppInstance.errorMsg(registration, townNames);
-          }
+        registrationAppInstance.errorMsg(registration, townNames);
       }
+    }
   }
 
-   res.redirect('/');
-  
+  res.redirect('/');
 });
-
 
 // Route to handle displaying the 'add' page
 app.get('/add', async (req, res) => {
@@ -156,17 +159,39 @@ app.post('/setTown', async (req, res) => {
   res.render('index', { displayTowns, noRegistrations});
 });
 
-// Route to reset the database and application state
+
+app.get('/showAll', async (req, res) => {
+  try {
+      // Retrieve all registration numbers from your data source
+      const allRegistrationNumbers = await registrationDB.getAllRegistrationNumbers();
+
+      // Render the page with all registration numbers
+      res.render('index', {
+          displayTowns: allRegistrationNumbers,
+          noRegistrations: allRegistrationNumbers.length === 0
+      });
+  } catch (error) {
+      // Handle errors here, e.g., log the error and send an error response
+      console.error(error);
+      res.status(500).send('Internal Server Error');
+  }
+});
+
+
+
+
 app.post('/reset', async (req, res) => {
-  // Refresh the database
-  await registrationDB.refreshDatabase();
-  
-  // Reset the application state
-  registrationAppInstance.reset();
-  
-  // Redirect back to the root URL
+  try {
+    // Clear the database data
+    await registrationDB.refreshDatabase();
+    req.flash('success', 'The database has been cleared successfully.');
+  } catch (error) {
+    req.flash('error', 'Failed to clear the database: ' + error.message);
+  }
+
   res.redirect('/');
 });
+
 
 // Start the Express.js server
 app.listen(PORT, () => {
