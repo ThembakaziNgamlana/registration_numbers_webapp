@@ -112,14 +112,12 @@ button {
 
 @media (min-width: 960px) {
     body {
-      background-attachment: scroll; /* Remove fixed background attachment */
+      background-attachment: scroll;
     }
     
     .container {
-      width: 60%; /* Adjust container width for larger screens */
+      width: 60%;
     }
-    
-    /* Add more responsive styles as needed */
   }
 
 
