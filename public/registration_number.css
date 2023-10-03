@@ -109,3 +109,17 @@ button {
     color: red; 
     font-size: larger;
 }
+
+@media (min-width: 960px) {
+    body {
+      background-attachment: scroll; /* Remove fixed background attachment */
+    }
+    
+    .container {
+      width: 60%; /* Adjust container width for larger screens */
+    }
+    
+    /* Add more responsive styles as needed */
+  }
+
+
