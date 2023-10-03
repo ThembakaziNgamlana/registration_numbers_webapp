@@ -16,93 +16,64 @@
     </ul>
 </div>
 
-    <div class="the_reg_Num">
-        <div>
-            <h1>Registration Number Web Application</h1>
-        </div>
-      
-
-        <form action="/add" method="post">
-        <div>
-             <p  class="errors">{{messages.error}}</p>
-              <script>
-                  setTimeout(function () {
-                        document.querySelector(".errors").remove();
-                  }, 3000)
-            </script>
-
-           </div>
-           <div class="success">
-                {{#if messages.success}}
-               <div class="alert_success">{{messages.success}}
-                <script>
-                  setTimeout(function () {
-                        document.querySelector(".success").remove();
-                  }, 3000)
-            </script>
-
-               </div>
-                {{/if}} 
-           </div>
-            
-            <div>
-                <label for="registrationNumber">Enter Registration Number</label>
-                <input name="registrationNumber" value="{{registration}}" type="text" id="registrationNumber" placeholder="e.g., CY 123 456" >
-            </div>
-            
-            <div>
-               
-                <form action="/add"  method="get">
-                 <button class="addBtn" type="submit">Add</button>
-                
-                </form>
-             
-            </div>
-           
-        </form>
-
-
-
-        <form action="/setTown" method="post" class="selectTown">
-            <label for="townSelect">Select a Town:</label>
-            <select name="regTown" id="townSelect">
-                <option name="town" value="Paarl">Paarl</option>
-                <option name="town" value="George">George</option>
-                <option  name="town" value="CapeTown">CapeTown</option>
-                
-            </select>
-            <button class="showBtn" type="submit">Show</button>
-        </form>
-
-     <form action="/showAll" method="get" class="showAllForm">
-    <button class="showAllBtn" type="submit">Show All</button>
-     </form>
-
-
-
-        <form action="/reset" method="post">
-            <button class="refreshBtn" type="submit">Reset</button>
-        </form>
-        
-      {{!-- <p class="no-registrations">No registrations found for this town.</p> --}}
-
-{{#if noRegistrations}}
-    <p class="no-registrations">No registrations found for this town.</p>
-{{/if}}
-
-        <div>
-           
-                {{#each displayTowns}} 
-                <ul>
-                    <p class="registrationNumber">{{this.registration_number}}<p>
-                </ul>
-                
-                {{/each}}
-
-                 
-        </div>
-       
+<div class="the_reg_Num">
+    <div>
+        <h1>Registration Number Web Application</h1>
     </div>
+
+    <form action="/add" method="post">
+        <div>
+            <p class="errors">{{messages.error}}</p>
+            <script>
+                setTimeout(function () {
+                    document.querySelector(".errors").remove();
+                }, 3000)
+            </script>
+        </div>
+        <div class="success">
+            {{#if messages.success}}
+            <div class="alert_success">{{messages.success}}
+                <script>
+                    setTimeout(function () {
+                        document.querySelector(".success").remove();
+                    }, 3000)
+                </script>
+            </div>
+            {{/if}} 
+        </div>
+        <div class="input-container">
+            <label for="registrationNumber">Enter Registration Number</label>
+            <input name="registrationNumber" value="{{registration}}" type="text" id="registrationNumber" placeholder="e.g., CY 123 456">
+            <button class="addBtn" type="submit">Add</button>
+        </div>
+    </form>
+  <form action="/setTown" method="post" class="selectTown">
+        <label for="townSelect">Select a Town:</label>
+        <select name="regTown" id="townSelect">
+            <option name="town" value="Paarl">Paarl</option>
+            <option name="town" value="George">George</option>
+            <option name="town" value="CapeTown">CapeTown</option>
+        </select>
+        <button class="showBtn" type="submit">Show</button>
+        <form action="/showAll" method="get" class="showAllForm">
+            <button class="showAllBtn" type="submit">Show All</button>
+        </form>
+    </form>
+    <form action="/reset" method="post">
+        <button class="refreshBtn" type="submit">Reset</button>
+    </form>
+
+    {{#if noRegistrations}}
+    <p class="no-registrations">No registrations found for this town.</p>
+    {{/if}}
+
+    <div>
+        {{#each displayTowns}} 
+        <ul>
+            <p class="registrationNumber">{{this.registration_number}}</p>
+        </ul>
+        {{/each}}
+    </div>
+</div>
 </body>
 </html>
-

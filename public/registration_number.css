@@ -5,7 +5,6 @@ body {
     
     height: 100vh;
     margin: 0;
-    background-color: lightskyblue; 
     background-image: url('./images/reg.num.webp');
     background-size: cover;
     background-repeat: no-repeat;
@@ -62,12 +61,12 @@ button {
 .key_words{
     border-radius:  15px;
     height: 90px;
-    padding-left: 10px;
+    padding-left: 5px;
     background-color: yellow; 
     border: 2px solid black;
     width: 150px;
     margin-bottom: 450px; 
-    margin-right: 200px;
+    margin-right: 20px;
 }
 /* .registrationNumber{
     border: 2px solid black;
@@ -110,14 +109,21 @@ button {
     font-size: larger;
 }
 
-@media (min-width: 960px) {
-    body {
-      background-attachment: scroll;
+@media (max-width: 960px) {
+    .key_words {
+        border-radius:  15px;
+        height: 150px;
+        width: 100px;
+        margin-bottom: 50px; 
     }
-    
+
+    .the_reg_Num {
+        padding-bottom: 50px;
+    }
+
     .container {
-      width: 60%;
+        width: 80%;
     }
-  }
+}
 
 
