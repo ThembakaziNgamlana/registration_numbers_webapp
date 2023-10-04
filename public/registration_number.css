@@ -51,6 +51,18 @@ button {
     cursor: pointer;
     margin-top: 30px;
 }
+.showBtn,
+.showAllBtn {
+    display: inline-block;
+    margin-right: 10px;
+    background-color: blue;
+    color: white;
+    border: none;
+    padding: 10px 50px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 30px; 
+}
 .the_reg_Num{
     text-align: center;
     background-color:lightgreen;

@@ -47,18 +47,22 @@
             <button class="addBtn" type="submit">Add</button>
         </div>
     </form>
-  <form action="/setTown" method="post" class="selectTown">
-        <label for="townSelect">Select a Town:</label>
-        <select name="regTown" id="townSelect">
-            <option name="town" value="Paarl">Paarl</option>
-            <option name="town" value="George">George</option>
-            <option name="town" value="CapeTown">CapeTown</option>
-        </select>
-        <button class="showBtn" type="submit">Show</button>
-        <form action="/showAll" method="get" class="showAllForm">
-            <button class="showAllBtn" type="submit">Show All</button>
-        </form>
-    </form>
+
+<form action="/setTown" method="post" class="selectTown">
+    <label for="townSelect">Select a Town:</label>
+    <select name="regTown" id="townSelect">
+        <option name="town" value="Paarl">Paarl</option>
+        <option name="town" value="George">George</option>
+        <option name="town" value="CapeTown">CapeTown</option>
+    </select>
+    <button class="showBtn" type="submit">Show</button>
+    
+    <button class="showAllBtn" id="showAllButton" type="button" onclick="document.querySelector('.showAllForm').submit()">Show All</button>
+</form>
+
+<form action="/showAll" method="get" class="showAllForm"></form>
+
+
     <form action="/reset" method="post">
         <button class="refreshBtn" type="submit">Reset</button>
     </form>
