@@ -43,7 +43,7 @@
         </div>
         <div class="input-container">
             <label for="registrationNumber">Enter Registration Number</label>
-            <input name="registrationNumber" value="{{registration}}" type="text" id="registrationNumber" placeholder="e.g., CY 123 456">
+            <input name="registrationNumber" value="{{registration}}" type="text" id="registrationNumber">
             <button class="addBtn" type="submit">Add</button>
         </div>
     </form>
@@ -51,6 +51,7 @@
 <form action="/setTown" method="post" class="selectTown">
     <label for="townSelect">Select a Town:</label>
     <select name="regTown" id="townSelect">
+        <option name="town" value="Select town">Select town </option>
         <option name="town" value="Paarl">Paarl</option>
         <option name="town" value="George">George</option>
         <option name="town" value="CapeTown">CapeTown</option>
@@ -67,9 +68,28 @@
         <button class="refreshBtn" type="submit">Reset</button>
     </form>
 
-    {{#if noRegistrations}}
-    <p class="no-registrations">No registrations found for this town.</p>
+  {{#if noRegistrations}} 
+      {{#if databaseCleared}}
+        <div id="no-registrations-message" class="no-registrations">
+          No registration numbers found, the database has been cleared.
+          <script>
+            setTimeout(function () {
+              document.querySelector("#no-registrations-message").remove();
+            }, 3000);
+          </script>
+        </div>
+      {{else}}
+        <div id="no-registrations-message" class="no-registrations">
+          No registration number found the database has been cleared.
+          <script>
+            setTimeout(function () {
+              document.querySelector("#no-registrations-message").remove();
+            }, 3000);
+          </script>
+        </div>
+      {{/if}}
     {{/if}}
+
 
     <div>
         {{#each displayTowns}} 
