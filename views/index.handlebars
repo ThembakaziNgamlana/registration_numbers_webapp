@@ -69,26 +69,33 @@
     </form>
 
   {{#if noRegistrations}} 
-      {{#if databaseCleared}}
-        <div id="no-registrations-message" class="no-registrations">
-          No registration numbers found, the database has been cleared.
-          <script>
-            setTimeout(function () {
-              document.querySelector("#no-registrations-message").remove();
-            }, 3000);
-          </script>
-        </div>
-      {{else}}
-        <div id="no-registrations-message" class="no-registrations">
-          No registration number found the database has been cleared.
-          <script>
-            setTimeout(function () {
-              document.querySelector("#no-registrations-message").remove();
-            }, 3000);
-          </script>
-        </div>
-      {{/if}}
-    {{/if}}
+  {{#if databaseCleared}}
+    <div id="no-registrations-message" class="no-registrations">
+      No registration numbers found, the database has been cleared.
+      <script>
+        setTimeout(function () {
+          const messageElement = document.querySelector("#no-registrations-message");
+          if (messageElement) {
+            messageElement.remove();
+          }
+        }, 3000);
+      </script>
+    </div>
+  {{else}}
+    <div id="no-registrations-message" class="no-registrations">
+      No registration number found for this town.
+      <script>
+        setTimeout(function () {
+          const messageElement = document.querySelector("#no-registrations-message");
+          if (messageElement) {
+            messageElement.remove();
+          }
+        }, 3000);
+      </script>
+    </div>
+  {{/if}}
+{{/if}}
+
 
 
     <div>

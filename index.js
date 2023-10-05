@@ -86,11 +86,16 @@ app.post('/add', async (req, res) => {
   // Regular expression to check if the registration starts with CA, CW, or CJ
   const validPrefixRegex = /^(CA|CW|CJ)\s+/;
 
+  // Regular expression to check for spaces within the registration number
+  const hasSpacesRegex = /^(CA|CW|CJ)\s+\d+$/;
+
   // Check if the registration number is empty
   if (!registration) {
     req.flash('error', 'Please enter your registration number');
   } else if (registration.length !== requiredRegistrationLength) {
     req.flash('error', 'Registration number must have exactly ' + requiredRegistrationLength + ' characters.');
+ } else if (!hasSpacesRegex.test(registration)) {
+    req.flash('error', 'Registration number must have a space between the prefix and the numbers (e.g., "CA 123345").');
   } else if (!validPrefixRegex.test(registration)) {
     req.flash('error', 'Please enter a registration number that starts with CA, CW, or CJ.');
   } else {
@@ -125,6 +130,7 @@ app.post('/add', async (req, res) => {
 
   res.redirect('/');
 });
+
 
 
 // Route to handle displaying the 'add' page
@@ -166,10 +172,15 @@ app.get('/show', async (req, res) => {
 
     // Check if there are no registrations and the database has been cleared
     const noRegistrations = displayTowns.length === 0;
-    const message = noRegistrations && databaseCleared ? 'No registration numbers found, the database has been cleared.' : '';
+    const errorMessage = noRegistrations && databaseCleared ? 'No registration numbers found, the database has been cleared.' : '';
+
+
+    // Store the error message in res.locals
+    res.locals.errorMessage = errorMessage;
+
 
     // Render the 'index' view with the filtered registration numbers or message
-    res.render('index', { displayTowns, noRegistrations, message });
+    res.render('index', { displayTowns, noRegistrations});
   } catch (error) {
     // Handle errors here, e.g., log the error and send an error response
     console.error(error);
@@ -207,13 +218,13 @@ app.get('/showAll', async (req, res) => {
 app.post('/reset', async (req, res) => {
   try {
     // Clear the database data
-    await registrationDB.refreshDatabase();
+  
     req.session.databaseCleared = true; // Set the flag to true
     req.flash('success', 'The database has been cleared successfully.');
   } catch (error) {
     req.flash('error', 'Failed to clear the database: ' + error.message);
   }
-
+  await registrationDB.refreshDatabase();
   res.redirect('/');
 });
 
