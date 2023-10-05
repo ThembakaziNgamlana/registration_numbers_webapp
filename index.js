@@ -74,8 +74,6 @@ app.post('/reg_numbers', async (req, res) => {
   res.render('index');
 });
 
-
-// Route to handle adding a registration number to the database
 app.post('/add', async (req, res) => {
   // Retrieve and clean the registration number from the request
   const registration = (req.body.registrationNumber || '').toUpperCase().trim();
@@ -87,17 +85,17 @@ app.post('/add', async (req, res) => {
   const validPrefixRegex = /^(CA|CW|CJ)\s+/;
 
   // Regular expression to check for spaces within the registration number
-  const hasSpacesRegex = /^(CA|CW|CJ)\s+\d+$/;
+  const validRegistrationRegex = /^(CA|CW|CJ)\s+\d+\s+\d+$/;
 
   // Check if the registration number is empty
   if (!registration) {
     req.flash('error', 'Please enter your registration number');
   } else if (registration.length !== requiredRegistrationLength) {
-    req.flash('error', 'Registration number must have exactly ' + requiredRegistrationLength + ' characters.');
- } else if (!hasSpacesRegex.test(registration)) {
-    req.flash('error', 'Registration number must have a space between the prefix and the numbers (e.g., "CA 123345").');
+    req.flash('error', 'Registration number must have exactly ' + requiredRegistrationLength + ' characters ,with spaces eg CA 123 456');
   } else if (!validPrefixRegex.test(registration)) {
     req.flash('error', 'Please enter a registration number that starts with CA, CW, or CJ.');
+  } else if (!validRegistrationRegex.test(registration)) {
+    req.flash('error', 'Registration number must have spaces between the prefix and the numbers (e.g., "CA 123 345").');
   } else {
     // Continue with other validations and database operations
 
@@ -130,6 +128,61 @@ app.post('/add', async (req, res) => {
 
   res.redirect('/');
 });
+
+
+// Route to handle adding a registration number to the database
+// app.post('/add', async (req, res) => {
+//   // Retrieve and clean the registration number from the request
+//   const registration = (req.body.registrationNumber || '').toUpperCase().trim();
+
+//   // Define the exact required length for registrations
+//   const requiredRegistrationLength = 10;
+
+//   // Regular expression to check if the registration starts with CA, CW, or CJ
+//   const validPrefixRegex = /^(CA|CW|CJ)\s+/;
+
+//   // Regular expression to check for spaces within the registration number
+  
+
+//   // Check if the registration number is empty
+//   if (!registration) {
+//     req.flash('error', 'Please enter your registration number');
+//   } else if (registration.length !== requiredRegistrationLength) {
+//     req.flash('error', 'Registration number must have exactly ' + requiredRegistrationLength + ' characters.');
+//   } else if (!validPrefixRegex.test(registration)) {
+//     req.flash('error', 'Please enter a registration number that starts with CA, CW, or CJ.');
+//   } else {
+//     // Continue with other validations and database operations
+
+//     // Check if the registration number already exists in the database
+//     const registrationExists = await registrationDB.doesRegNumExist(registration);
+
+//     if (registrationExists) {
+//       req.flash('error', 'This registration number already exists');
+//     } else {
+//       // Get town names based on the registration number
+//       const townNames = registrationAppInstance.townID(registration);
+
+//       // Get the town IDs from the database based on townNames
+//       const townIDs = await registrationDB.getTownId(townNames);
+
+//       if (townIDs && townNames) {
+//         // Extract the town ID
+//         const townid = townIDs.id;
+
+//         // Insert the registration number into the database
+//         const insertTowns = await registrationDB.insertRegistrationNumber(registration, townid);
+
+//         // Set a success message
+//         req.flash('success', 'The registration number ' + registration + ' has been added successfully.');
+//       } else {
+//         registrationAppInstance.errorMsg(registration, townNames);
+//       }
+//     }
+//   }
+
+//   res.redirect('/');
+// });
 
 
 
@@ -170,17 +223,18 @@ app.get('/show', async (req, res) => {
     // Retrieve registration numbers by the selected town
     const displayTowns = await registrationDB.getRegByTown(town);
 
-    // Check if there are no registrations and the database has been cleared
+    // Check if there are no registrations
     const noRegistrations = displayTowns.length === 0;
-    const errorMessage = noRegistrations && databaseCleared ? 'No registration numbers found, the database has been cleared.' : '';
 
+    // Set the error message based on conditions
+    let errorMessage = '';
 
-    // Store the error message in res.locals
-    res.locals.errorMessage = errorMessage;
+    if (noRegistrations && databaseCleared) {
+      errorMessage = 'No registration numbers found, the database has been cleared.';
+    }
 
-
-    // Render the 'index' view with the filtered registration numbers or message
-    res.render('index', { displayTowns, noRegistrations});
+    // Render the 'index' view with the filtered registration numbers and error message
+    res.render('index', { displayTowns, noRegistrations, errorMessage });
   } catch (error) {
     // Handle errors here, e.g., log the error and send an error response
     console.error(error);
@@ -193,18 +247,22 @@ app.get('/showAll', async (req, res) => {
     // Check if the database has been cleared
     const databaseCleared = req.session.databaseCleared;
     req.session.databaseCleared = false; // Reset the flag
-    //const noRegistrations = displayTowns.length === 0;
+
     // Retrieve all registration numbers from your data source
     const allRegistrationNumbers = await registrationDB.getAllRegistrationNumbers();
 
-    // Check if there are no registrations and the database has been cleared
-    const message = allRegistrationNumbers.length === 0 && databaseCleared ? 'No registration numbers found, the database has been cleared.' : '';
+    // Set the error message based on conditions
+    let errorMessage = '';
 
-    // Render the page with all registration numbers or message
+    if (allRegistrationNumbers.length === 0 && databaseCleared) {
+      errorMessage = 'No registration numbers found, the database has been cleared.';
+    }
+
+    // Render the page with all registration numbers and error message
     res.render('index', {
       displayTowns: allRegistrationNumbers,
       noRegistrations: allRegistrationNumbers.length === 0,
-      message,
+      errorMessage,
     });
   } catch (error) {
     // Handle errors here, e.g., log the error and send an error response
